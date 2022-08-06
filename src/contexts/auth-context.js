@@ -1,14 +1,35 @@
-const { createContext, useContext, useState } = require("react");
+import { auth, db } from "firebase-app/firebase-config";
+import { onAuthStateChanged } from "firebase/auth";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+
+const { createContext, useContext, useState, useEffect } = require("react");
 
 const AuthContext = createContext();
 
 function AuthProvider(props) {
   const [userInfo, setUserInfo] = useState({});
   const value = { userInfo, setUserInfo };
-
-  return (
-    <AuthContext.Provider values={value} {...props}></AuthContext.Provider>
-  );
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const docRef = query(
+          collection(db, "users"),
+          where("email", "==", user.email)
+        );
+        onSnapshot(docRef, (snapshot) => {
+          snapshot.forEach((doc) => {
+            setUserInfo({
+              ...user,
+              ...doc.data(),
+            });
+          });
+        });
+      } else {
+        setUserInfo(null);
+      }
+    });
+  }, []);
+  return <AuthContext.Provider value={value} {...props}></AuthContext.Provider>;
 }
 
 function useAuth() {
