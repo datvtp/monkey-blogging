@@ -1,6 +1,13 @@
-import React, { useState } from "react";
+import * as yup from "yup";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { addDoc, collection } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { auth, db } from "firebase-app/firebase-config";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 import { Label } from "components/label";
 import { Input } from "components/input";
@@ -30,24 +37,58 @@ const StyledSignUpPage = styled.div`
   }
 `;
 
+const schema = yup.object({
+  fullname: yup.string().required("Please enter your fullname"),
+  email: yup
+    .string()
+    .email("Please enter valid email address")
+    .required("Please enter your email address"),
+  password: yup
+    .string()
+    .min(8, "Your password must be at least 8 characters or greater")
+    .required("Please enter your password"),
+});
+
 const SignUpPage = () => {
+  const navigate = useNavigate();
+
   const {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-    watch,
-  } = useForm({});
+  } = useForm({
+    mode: "onChange",
+    resolver: yupResolver(schema),
+  });
 
-  const handleSignUp = (values) => {
+  const handleSignUp = async (values) => {
     if (!isValid) return;
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 5000);
+
+    await createUserWithEmailAndPassword(auth, values.email, values.password);
+    await updateProfile(auth.currentUser, {
+      displayName: values.fullname,
     });
+
+    const collectionRef = collection(db, "users");
+    await addDoc(collectionRef, {
+      fullname: values.fullname,
+      email: values.email,
+      password: values.password,
+    });
+
+    toast.success("Register successfully!");
+    navigate("/");
   };
 
   const [togglePassword, setTogglePassword] = useState(false);
+
+  useEffect(() => {
+    const errorArr = Object.values(errors);
+
+    if (errorArr.length > 0) {
+      toast.error(errorArr[0].message);
+    }
+  }, [errors]);
 
   return (
     <StyledSignUpPage>
