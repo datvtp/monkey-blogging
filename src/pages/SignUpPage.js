@@ -20,12 +20,12 @@ const StyledSignUpPage = styled.div`
     text-align: center;
     color: ${(props) => props.theme.primary};
     font-weight: bold;
-    font-size: 40px;
-    margin-bottom: 60px;
+    font-size: 32px;
+    margin-bottom: 32px;
   }
 
   .form {
-    max-width: 600px;
+    max-width: 400px;
     margin: 0 auto;
   }
 `;
@@ -52,7 +52,7 @@ const SignUpPage = () => {
   return (
     <StyledSignUpPage>
       <div className="container">
-        <img srcSet="/logo.png 2x" alt="monkey-blogging" className="logo" />
+        <img srcSet="/logo.png 3x" alt="monkey-blogging" className="logo" />
         <h1 className="heading">Monkey Blogging</h1>
         <form
           className="form"
@@ -69,11 +69,11 @@ const SignUpPage = () => {
             />
           </Field>
           <Field>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">Email address</Label>
             <Input
               name="email"
               type="email"
-              placeholder="Enter your email"
+              placeholder="Enter your email address"
               control={control}
             />
           </Field>
@@ -94,10 +94,6 @@ const SignUpPage = () => {
           </Field>
           <Button
             type="submit"
-            style={{
-              maxWidth: 350,
-              margin: "0 auto",
-            }}
             isLoading={isSubmitting}
             disabled={isSubmitting}
           >

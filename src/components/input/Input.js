@@ -8,12 +8,12 @@ const StyledInput = styled.div`
 
   input {
     width: 100%;
-    padding: ${(props) => (props.hasIcon ? "20px 60px 20px 20px" : "20px")};
+    padding: ${(props) => (props.hasIcon ? "12px 64px 12px 12px" : "12px")};
     background-color: ${(props) => props.theme.greyLight};
     border-radius: 8px;
     font-weight: 500;
     transition: all 0.2s linear;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
   }
 
   input:focus {

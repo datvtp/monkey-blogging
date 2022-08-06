@@ -4,14 +4,13 @@ import styled from "styled-components";
 
 const StyledButton = styled.button`
   cursor: pointer;
-  padding: 0 25px;
-  line-height: 1;
+  padding: 12px;
+  line-height: 28px;
   color: white;
   border-radius: 8px;
   font-weight: 600;
-  font-style: 18px;
+  font-size: 18px;
   width: 100%;
-  height: ${(props) => props.height || "70px"};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,7 +33,7 @@ const Button = ({
   ...props
 }) => {
   const { isLoading } = props;
-  const child = !!isLoading ? <LoadingSpinner /> : children;
+  const child = !!isLoading ? <LoadingSpinner size="24px" /> : children;
 
   return (
     <StyledButton type={type} onClick={onClick} {...props}>
