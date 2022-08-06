@@ -9,6 +9,7 @@ const StyledInput = styled.div`
 
   input {
     width: 100%;
+    line-height: 28px;
     padding: ${(props) =>
       props.hasIcon ? "12px 64px 12px 24px" : "12px 24px"};
     background-color: ${(props) => props.theme.greyLight};

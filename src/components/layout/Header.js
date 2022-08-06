@@ -1,19 +1,21 @@
 import React from "react";
 import styled from "styled-components";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import { Button } from "components/button";
+import { useAuth } from "contexts/auth-context";
 
 const menuLinks = [
   {
-    url: "/#",
+    url: "/",
     title: "Home",
   },
   {
-    url: "/#",
+    url: "/blog",
     title: "Blog",
   },
   {
-    url: "/#",
+    url: "/contact",
     title: "Contact",
   },
 ];
@@ -42,12 +44,12 @@ const StyledHeader = styled.div`
 
   .search {
     position: relative;
-    margin-left: auto;
+    margin-left: 32px;
     padding: 12px 24px;
     border: 2px solid ${(props) => props.theme.primary};
     border-radius: 8px;
     width: 100%;
-    max-width: 320px;
+    max-width: 480px;
     display: flex;
     align-items: center;
   }
@@ -55,6 +57,7 @@ const StyledHeader = styled.div`
   .search-input {
     flex: 1;
     padding-right: 36px;
+    font-weight: 500;
   }
 
   .search-icon {
@@ -65,24 +68,39 @@ const StyledHeader = styled.div`
   }
 
   .header-button {
-    margin-left: 24px;
+    margin-left: auto;
+  }
+
+  .display-name {
+    margin-left: auto;
   }
 `;
 
+const getLastName = (name) => {
+  return name.split(" ").slice(-1).join(" ");
+};
+
 const Header = () => {
+  const { userInfo } = useAuth();
+
+  const navigate = useNavigate();
+  const handleOnClickSignInButton = () => {
+    navigate("/sign-in");
+  };
+
   return (
     <StyledHeader>
       <div className="container">
         <div className="header-main">
-          <a href="/">
+          <NavLink to="/">
             <img srcSet="/logo.png 2x" alt="monkey-blogging" className="logo" />
-          </a>
+          </NavLink>
           <ul className="menu">
             {menuLinks.map((item) => (
               <li className="menu-item" key={item.title}>
-                <a href={item.url} className="menu-link">
+                <NavLink to={item.url} className="menu-link">
                   {item.title}
-                </a>
+                </NavLink>
               </li>
             ))}
           </ul>
@@ -124,9 +142,26 @@ const Header = () => {
               </svg>
             </span>
           </div>
-          <Button className="header-button" style={{ maxWidth: "160px" }}>
-            Sign In
-          </Button>
+          {!userInfo ? (
+            <Button
+              className="header-button"
+              onClick={handleOnClickSignInButton}
+              style={{ maxWidth: "160px" }}
+            >
+              Sign In
+            </Button>
+          ) : (
+            <div className="display-name">
+              {userInfo?.displayName && (
+                <>
+                  <span>Welcome back, </span>
+                  <strong className="primary-text">
+                    {getLastName(userInfo?.displayName)}
+                  </strong>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </StyledHeader>
