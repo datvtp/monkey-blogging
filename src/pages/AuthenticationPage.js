@@ -7,7 +7,7 @@ const StyledAuthenticationPage = styled.div`
   padding: 40px;
 
   .logo {
-    margin: 32px auto 12px;
+    margin: 12px auto;
   }
 
   .heading {

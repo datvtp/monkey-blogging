@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { signOut } from "firebase/auth";
 import { auth } from "firebase-app/firebase-config";
-import { Header } from "components/layout";
+
+import Hero from "module/home/Hero";
+import Main from "components/layout/Main";
 
 const StyledHomePage = styled.div``;
 
@@ -13,7 +15,9 @@ const HomePage = () => {
 
   return (
     <StyledHomePage>
-      <Header></Header>
+      <Main>
+        <Hero />
+      </Main>
     </StyledHomePage>
   );
 };

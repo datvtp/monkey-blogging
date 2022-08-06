@@ -84,8 +84,8 @@ const Header = () => {
   const { userInfo } = useAuth();
 
   const navigate = useNavigate();
-  const handleOnClickSignInButton = () => {
-    navigate("/sign-in");
+  const handleOnClickSignUpButton = () => {
+    navigate("/sign-up");
   };
 
   return (
@@ -145,10 +145,10 @@ const Header = () => {
           {!userInfo ? (
             <Button
               className="header-button"
-              onClick={handleOnClickSignInButton}
+              onClick={handleOnClickSignUpButton}
               style={{ maxWidth: "160px" }}
             >
-              Sign In
+              Sign Un
             </Button>
           ) : (
             <div className="display-name">
