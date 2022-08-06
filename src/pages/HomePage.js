@@ -1,6 +1,10 @@
-import { auth } from "firebase-app/firebase-config";
-import { signOut } from "firebase/auth";
 import React from "react";
+import styled from "styled-components";
+import { signOut } from "firebase/auth";
+import { auth } from "firebase-app/firebase-config";
+import { Header } from "components/layout";
+
+const StyledHomePage = styled.div``;
 
 const HomePage = () => {
   const handleSignOut = () => {
@@ -8,9 +12,9 @@ const HomePage = () => {
   };
 
   return (
-    <div>
-      <button onClick={handleSignOut}>Sign Out</button>
-    </div>
+    <StyledHomePage>
+      <Header></Header>
+    </StyledHomePage>
   );
 };
 

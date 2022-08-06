@@ -9,7 +9,8 @@ const StyledInput = styled.div`
 
   input {
     width: 100%;
-    padding: ${(props) => (props.hasIcon ? "12px 64px 12px 12px" : "12px")};
+    padding: ${(props) =>
+      props.hasIcon ? "12px 64px 12px 24px" : "12px 24px"};
     background-color: ${(props) => props.theme.greyLight};
     border-radius: 8px;
     font-weight: 500;
