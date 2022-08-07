@@ -7,6 +7,8 @@ import { Button } from "components/button";
 const StyledHero = styled.div`
   height: 560px;
   padding: 40px 0;
+  margin-bottom: 60px;
+
   background-image: linear-gradient(
     to right bottom,
     ${(props) => props.theme.primary},

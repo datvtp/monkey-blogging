@@ -1,22 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import { signOut } from "firebase/auth";
-import { auth } from "firebase-app/firebase-config";
 
-import Hero from "module/home/Hero";
-import Main from "components/layout/Main";
+import { Main } from "components/layout";
+import { Hero, HomeNewest, HomeFeature } from "module/home";
 
 const StyledHomePage = styled.div``;
 
 const HomePage = () => {
-  const handleSignOut = () => {
-    signOut(auth);
-  };
-
   return (
     <StyledHomePage>
       <Main>
         <Hero />
+        <HomeFeature></HomeFeature>
+        <HomeNewest></HomeNewest>
       </Main>
     </StyledHomePage>
   );
