@@ -6,7 +6,6 @@ const StyledHeading = styled.h2`
   font-size: 28px;
   position: relative;
   margin-bottom: 30px;
-  font-family: "Montserrat", sans-serif;
   &:before {
     content: "";
     width: 50px;

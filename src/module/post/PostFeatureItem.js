@@ -1,6 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
+import PostMeta from "./PostMeta";
+import PostTitle from "./PostTitle";
+import PostImage from "./PostImage";
+import PostCategory from "./PostCategory";
+
 const StyledPostFeatureItem = styled.div`
   width: 100%;
   border-radius: 16px;
@@ -10,9 +15,9 @@ const StyledPostFeatureItem = styled.div`
     &-image {
       width: 100%;
       height: 100%;
-      object-fit: cover;
       border-radius: 16px;
     }
+
     &-overlay {
       position: absolute;
       inset: 0;
@@ -26,6 +31,7 @@ const StyledPostFeatureItem = styled.div`
       mix-blend-mode: multiply;
       opacity: 0.6;
     }
+
     &-content {
       position: absolute;
       inset: 0;
@@ -33,47 +39,12 @@ const StyledPostFeatureItem = styled.div`
       padding: 20px;
       color: white;
     }
+
     &-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 16px;
-    }
-    &-category {
-      display: inline-block;
-      padding: 8px 12px;
-      border-radius: 8px;
-      color: #6b6b6b;
-      font-size: 14px;
-      font-weight: 600;
-      white-space: nowrap;
-      background-color: #f3f3f3;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100px;
-    }
-    &-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 14px;
-      font-weight: 600;
-      color: white;
-      margin-left: auto;
-    }
-    &-dot {
-      display: inline-block;
-      width: 4px;
-      height: 4px;
-      background-color: currentColor;
-      border-radius: 100rem;
-    }
-    &-title {
-      font-weight: bold;
-      line-height: 1.5;
-      display: block;
-      font-size: 22px;
-      color: white;
     }
   }
 
@@ -85,24 +56,19 @@ const StyledPostFeatureItem = styled.div`
 const PostFeatureItem = () => {
   return (
     <StyledPostFeatureItem>
-      <img
-        src="https://images.unsplash.com/photo-1614624532983-4ce03382d63d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2662&q=80"
+      <PostImage
+        url="https://images.unsplash.com/photo-1614624532983-4ce03382d63d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2662&q=80"
         alt="unsplash"
-        className="post-image"
       />
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
-          <span className="post-category">Kiến thức</span>
-          <div className="post-info">
-            <span className="post-time">Mar 23</span>
-            <span className="post-dot"></span>
-            <span className="post-author">Andiez Le</span>
-          </div>
+          <PostCategory>Kiến thức</PostCategory>
+          <PostMeta></PostMeta>
         </div>
-        <h3 className="post-title">
+        <PostTitle size="big">
           Hướng dẫn setup phòng cực chill dành cho người mới toàn tập
-        </h3>
+        </PostTitle>
       </div>
     </StyledPostFeatureItem>
   );
