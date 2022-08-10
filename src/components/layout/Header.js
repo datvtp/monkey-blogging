@@ -67,6 +67,18 @@ const StyledHeader = styled.div`
     right: 24px;
   }
 
+  @media screen and (max-width: 1023.98px) {
+    .logo {
+      max-width: 30px;
+    }
+    .menu,
+    .search,
+    .header-button,
+    .header-auth {
+      display: none;
+    }
+  }
+
   .header-button {
     margin-left: auto;
   }

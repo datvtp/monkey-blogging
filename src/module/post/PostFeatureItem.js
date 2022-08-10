@@ -22,12 +22,7 @@ const StyledPostFeatureItem = styled.div`
       position: absolute;
       inset: 0;
       border-radius: 16px;
-      background: linear-gradient(
-        179.77deg,
-        #6b6b6b 36.45%,
-        rgba(163, 163, 163, 0.622265) 63.98%,
-        rgba(255, 255, 255, 0) 99.8%
-      );
+      background-color: rgba(0, 0, 0, 0.75);
       mix-blend-mode: multiply;
       opacity: 0.6;
     }
@@ -50,6 +45,14 @@ const StyledPostFeatureItem = styled.div`
 
   @media screen and (min-width: 1024px) {
     height: 272px;
+  }
+
+  @media screen and (max-width: 1023.98px) {
+    .post {
+      &-content {
+        padding: 15px;
+      }
+    }
   }
 `;
 
