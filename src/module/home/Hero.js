@@ -82,11 +82,9 @@ const Hero = () => {
               small group, and often covered a single subject or topic.
             </p>
             <Button
+              className="max-w-[200px]"
               onClick={handleGetStartedButton}
               variant="secondary"
-              style={{
-                maxWidth: "200px",
-              }}
             >
               Get started
             </Button>

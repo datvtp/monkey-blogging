@@ -10,7 +10,7 @@ const Search = ({ placeholder, ...props }) => {
       <input
         type="text"
         placeholder={placeholder}
-        className="p-4 outline-none w-full border border-gray-200 rounded"
+        className="p-4 outline-none w-full border border-grey-200 rounded"
         onChange={onChange}
         {...props}
       />

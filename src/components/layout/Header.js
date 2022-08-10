@@ -156,9 +156,8 @@ const Header = () => {
           </div>
           {!userInfo ? (
             <Button
-              className="header-button"
+              className="header-button max-w-[160px]"
               onClick={handleOnClickSignUpButton}
-              style={{ maxWidth: "160px" }}
             >
               Sign Un
             </Button>

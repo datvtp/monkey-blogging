@@ -24,7 +24,7 @@ const StyledPostItem = styled.div`
     }
 
     &-title {
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
   }
 

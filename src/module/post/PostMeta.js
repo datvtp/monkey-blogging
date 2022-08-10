@@ -30,7 +30,7 @@ const PostMeta = ({
   className = "",
 }) => {
   return (
-    <StyledPostMeta className={className}>
+    <StyledPostMeta className={`post-meta ${className}`}>
       <span className="post-time">{date}</span>
       <span className="post-dot"></span>
       <span className="post-author">{authorName}</span>

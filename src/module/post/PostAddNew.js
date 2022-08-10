@@ -98,7 +98,7 @@ const PostAddNew = () => {
           </Field>
           <Field></Field>
         </div>
-        <Button type="submit" className="mx-auto">
+        <Button type="submit" className="mx-auto max-w-[200px]">
           Add new post
         </Button>
       </form>
