@@ -8,7 +8,6 @@ import { Input } from "components/input";
 import { Label } from "components/label";
 import { Button } from "components/button";
 import { Dropdown } from "components/dropdown";
-import { Checkbox } from "components/checkbox";
 
 const StyledPostAddNew = styled.div``;
 
@@ -29,7 +28,7 @@ const PostAddNew = () => {
     <StyledPostAddNew>
       <h1 className="dashboard-heading">Add new post</h1>
       <form>
-        <div className="grid grid-cols-2 gap-x-10 mb-10">
+        <div className="grid grid-cols-2 gap-x-20">
           <Field>
             <Label>Title</Label>
             <Input
@@ -47,7 +46,7 @@ const PostAddNew = () => {
             ></Input>
           </Field>
         </div>
-        <div className="grid grid-cols-2 gap-x-10 mb-10">
+        <div className="grid grid-cols-2 gap-x-20">
           <Field>
             <Label>Status</Label>
             <div className="flex items-center gap-x-5">
@@ -85,7 +84,7 @@ const PostAddNew = () => {
             <Input control={control} placeholder="Find the author"></Input>
           </Field>
         </div>
-        <div className="grid grid-cols-2 gap-x-10 mb-10">
+        <div className="grid grid-cols-2 gap-x-20 mb-10">
           <Field>
             <Label>Category</Label>
             <Dropdown>
