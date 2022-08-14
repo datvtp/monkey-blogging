@@ -1,15 +1,16 @@
 import slugify from "slugify";
 import styled from "styled-components";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-// import { db } from "firebase-app/firebase-config";
-// import { addDoc, collection } from "firebase/firestore";
+import { db } from "firebase-app/firebase-config";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 import { Radio } from "components/radio";
 import { Field } from "components/field";
 import { Input } from "components/input";
 import { Label } from "components/label";
 import { Button } from "components/button";
+import { Toggle } from "components/toggle";
 import { postStatus } from "utils/constants";
 import { Dropdown } from "components/dropdown";
 import { ImageUpload } from "components/image";
@@ -25,10 +26,12 @@ const PostAddNew = () => {
       slug: "",
       status: 2,
       category: "",
+      hot: false,
     },
   });
 
   const watchStatus = watch("status");
+  const watchHot = watch("hot");
   //const watchCategory = watch("category");
 
   const onDoSubmit = async (values) => {
@@ -40,8 +43,26 @@ const PostAddNew = () => {
     // await addDoc(colRef, {});
   };
 
+  const onDoClickToggle = () => {
+    setValue("hot", !watchHot);
+  };
+
   const { image, progress, handleSelectImage, handleDeleteImage } =
     useFirebaseImage(setValue, getValues);
+
+  useEffect(() => {
+    async function getData() {
+      const colRef = collection(db, "categories");
+      const q = query(colRef, where("status", "==", 1));
+      let results = [];
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        results.push({ id: doc.id, ...doc.data() });
+      });
+    }
+
+    getData();
+  }, []);
 
   return (
     <StyledPostAddNew>
@@ -119,6 +140,10 @@ const PostAddNew = () => {
                   Reject
                 </Radio>
               </div>
+            </Field>
+            <Field>
+              <Label>Featured</Label>
+              <Toggle on={watchHot === true} onClick={onDoClickToggle}></Toggle>
             </Field>
           </div>
         </div>

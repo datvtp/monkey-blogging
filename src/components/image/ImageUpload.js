@@ -12,7 +12,7 @@ const ImageUpload = (props) => {
   } = props;
   return (
     <label
-      className={`cursor-pointer flex items-center justify-center border border-dashed w-full min-h-[200px] rounded-lg ${className} relative overflow-hidden group`}
+      className={`cursor-pointer flex items-center justify-center border border-dashed w-full min-h-[250px] rounded-lg ${className} relative overflow-hidden group`}
     >
       <input
         type="file"
@@ -29,7 +29,7 @@ const ImageUpload = (props) => {
           <img
             src="/img-upload.png"
             alt="upload-img"
-            className="max-w-[80px] mb-5"
+            className="max-w-[100px] mb-5"
           />
           <p className="font-semibold">Choose photo</p>
         </div>
@@ -38,7 +38,7 @@ const ImageUpload = (props) => {
         <Fragment>
           <img
             src={image}
-            className="object-cover max-h-[180px]"
+            className="object-cover max-h-[200px]"
             alt="img-upload-success"
           />
           <button

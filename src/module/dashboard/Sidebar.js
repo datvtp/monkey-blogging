@@ -149,8 +149,8 @@ const Sidebar = () => {
         <img srcSet="/logo.png 2x" alt="" />
         <span>Monkey Blogging</span>
       </div>
-      {sidebarLinks.map((link) => (
-        <NavLink to={link.url} className="menu-item">
+      {sidebarLinks.map((link, index) => (
+        <NavLink key={index} to={link.url} className="menu-item">
           <span className="menu-icon">{link.icon}</span>
           <span className="menu-text">{link.title}</span>
         </NavLink>

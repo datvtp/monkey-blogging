@@ -12,8 +12,8 @@ const StyledDashboard = styled.div`
   .dashboard {
     &-heading {
       font-weight: bold;
-      font-size: 36px;
-      margin-bottom: 40px;
+      font-size: 32px;
+      margin-bottom: 20px;
       color: ${(props) => props.theme.primary};
       letter-spacing: 1px;
     }
