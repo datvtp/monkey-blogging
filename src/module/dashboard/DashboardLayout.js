@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
+import { useAuth } from "contexts/auth-context";
 
 import Sidebar from "./Sidebar";
+import SignInPage from "pages/SignInPage";
 import DashboardHeader from "./DashboardHeader";
 
 const StyledDashboard = styled.div`
@@ -29,6 +31,12 @@ const StyledDashboard = styled.div`
 `;
 
 const DashboardLayout = ({ children }) => {
+  const { userInfo } = useAuth();
+
+  if (!userInfo) {
+    return <SignInPage></SignInPage>;
+  }
+
   return (
     <StyledDashboard>
       <DashboardHeader></DashboardHeader>

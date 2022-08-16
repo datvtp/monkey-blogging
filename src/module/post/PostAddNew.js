@@ -1,9 +1,10 @@
 import slugify from "slugify";
 import styled from "styled-components";
-import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useAuth } from "contexts/auth-context";
 import { db } from "firebase-app/firebase-config";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 
 import { Radio } from "components/radio";
 import { Field } from "components/field";
@@ -15,20 +16,26 @@ import { postStatus } from "utils/constants";
 import { Dropdown } from "components/dropdown";
 import { ImageUpload } from "components/image";
 import useFirebaseImage from "hook/useFirebaseImage";
+import { toast } from "react-toastify";
 
 const StyledPostAddNew = styled.div``;
 
 const PostAddNew = () => {
+  const { userInfo } = useAuth();
+
   const { control, watch, setValue, getValues, handleSubmit } = useForm({
     mode: "onChange",
     defaultValues: {
       title: "",
       slug: "",
       status: 2,
-      category: "",
+      categoryId: "",
       hot: false,
     },
   });
+
+  const { image, progress, handleSelectImage, handleDeleteImage } =
+    useFirebaseImage(setValue, getValues);
 
   const watchStatus = watch("status");
   const watchHot = watch("hot");
@@ -36,19 +43,24 @@ const PostAddNew = () => {
 
   const onDoSubmit = async (values) => {
     const cloneValues = { ...values };
-    cloneValues.slug = slugify(values.slug || values.title);
+    cloneValues.slug = slugify(values.slug || values.title, { lower: true });
     cloneValues.status = Number(values.status);
 
-    // const colRef = collection(db, "posts");
-    // await addDoc(colRef, {});
+    const colRef = collection(db, "posts");
+    await addDoc(colRef, {
+      ...cloneValues,
+      image,
+      userId: userInfo.uid,
+    });
+
+    toast.success("Add new post successfully.");
   };
 
   const onDoClickToggle = () => {
     setValue("hot", !watchHot);
   };
 
-  const { image, progress, handleSelectImage, handleDeleteImage } =
-    useFirebaseImage(setValue, getValues);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     async function getData() {
@@ -59,6 +71,7 @@ const PostAddNew = () => {
       querySnapshot.forEach((doc) => {
         results.push({ id: doc.id, ...doc.data() });
       });
+      setCategories(results);
     }
 
     getData();
@@ -67,7 +80,11 @@ const PostAddNew = () => {
   return (
     <StyledPostAddNew>
       <h1 className="dashboard-heading">Add new post</h1>
-      <form onSubmit={handleSubmit(onDoSubmit)}>
+      <form
+        onSubmit={handleSubmit(onDoSubmit)}
+        autoComplete="off"
+        spellCheck="false"
+      >
         <div className="grid grid-cols-2 gap-x-20">
           <Field>
             <Label>Title</Label>
@@ -83,7 +100,6 @@ const PostAddNew = () => {
               control={control}
               placeholder="Enter your slug"
               name="slug"
-              required
             ></Input>
           </Field>
         </div>
@@ -102,11 +118,18 @@ const PostAddNew = () => {
             <Field>
               <Label>Category</Label>
               <Dropdown>
-                <Dropdown.Option>Knowledge</Dropdown.Option>
-                <Dropdown.Option>Blockchain</Dropdown.Option>
-                <Dropdown.Option>Setup</Dropdown.Option>
-                <Dropdown.Option>Nature</Dropdown.Option>
-                <Dropdown.Option>Developer</Dropdown.Option>
+                <Dropdown.Select placeholder="Select category"></Dropdown.Select>
+                <Dropdown.List>
+                  {categories.length > 0 &&
+                    categories.map((category) => (
+                      <Dropdown.Option
+                        key={category.id}
+                        onClick={() => setValue("categoryId", category.id)}
+                      >
+                        {category.name}
+                      </Dropdown.Option>
+                    ))}
+                </Dropdown.List>
               </Dropdown>
             </Field>
             <Field>

@@ -98,21 +98,21 @@ const PostManage = () => {
                 />
                 <div className="flex-1">
                   <h3 className="font-semibold">One Special 4K Camera</h3>
-                  <time className="text-sm text-grey-500">
+                  <time className="text-sm text-gray-500">
                     Date: 25 Oct 2021
                   </time>
                 </div>
               </div>
             </td>
             <td>
-              <span className="text-grey-500">Camera Gear</span>
+              <span className="text-gray-500">Camera Gear</span>
             </td>
             <td>
-              <span className="text-grey-500">Evondev</span>
+              <span className="text-gray-500">Evondev</span>
             </td>
             <td>
-              <div className="flex items-center gap-x-3 text-grey-500">
-                <span className="flex items-center justify-center w-10 h-10 border border-grey-200 rounded cursor-pointer">
+              <div className="flex items-center gap-x-3 text-gray-500">
+                <span className="flex items-center justify-center w-10 h-10 border border-gray-200 rounded cursor-pointer">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="w-5 h-5"
@@ -133,7 +133,7 @@ const PostManage = () => {
                     />
                   </svg>
                 </span>
-                <span className="flex items-center justify-center w-10 h-10 border border-grey-200 rounded cursor-pointer">
+                <span className="flex items-center justify-center w-10 h-10 border border-gray-200 rounded cursor-pointer">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="w-5 h-5"
@@ -149,7 +149,7 @@ const PostManage = () => {
                     />
                   </svg>
                 </span>
-                <span className="flex items-center justify-center w-10 h-10 border border-grey-200 rounded cursor-pointer">
+                <span className="flex items-center justify-center w-10 h-10 border border-gray-200 rounded cursor-pointer">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="w-5 h-5"
