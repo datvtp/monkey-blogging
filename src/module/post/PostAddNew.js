@@ -1,10 +1,19 @@
 import slugify from "slugify";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { useAuth } from "contexts/auth-context";
 import { db } from "firebase-app/firebase-config";
 import React, { useEffect, useState } from "react";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import useFirebaseImage from "hook/useFirebaseImage";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  query,
+  serverTimestamp,
+  where,
+} from "firebase/firestore";
 
 import { Radio } from "components/radio";
 import { Field } from "components/field";
@@ -15,8 +24,6 @@ import { Toggle } from "components/toggle";
 import { postStatus } from "utils/constants";
 import { Dropdown } from "components/dropdown";
 import { ImageUpload } from "components/image";
-import useFirebaseImage from "hook/useFirebaseImage";
-import { toast } from "react-toastify";
 
 const StyledPostAddNew = styled.div``;
 
@@ -56,6 +63,7 @@ const PostAddNew = () => {
       ...cloneValues,
       image,
       userId: userInfo.uid,
+      createdAt: serverTimestamp(),
     });
 
     reset({

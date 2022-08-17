@@ -1,7 +1,7 @@
 import * as yup from "yup";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { addDoc, collection } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { NavLink, useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -13,6 +13,7 @@ import { Button } from "components/button";
 import AuthenticationPage from "./AuthenticationPage";
 import { auth, db } from "firebase-app/firebase-config";
 import { Input, InputPasswordToggle } from "components/input";
+import slugify from "slugify";
 
 const schema = yup.object({
   fullname: yup.string().required("Please enter your fullname"),
@@ -46,11 +47,11 @@ const SignUpPage = () => {
       displayName: values.fullname,
     });
 
-    const collectionRef = collection(db, "users");
-    await addDoc(collectionRef, {
+    await setDoc(doc(db, "users", auth.currentUser.uid), {
       fullname: values.fullname,
       email: values.email,
       password: values.password,
+      username: slugify(values.fullname, { lower: true }),
     });
 
     toast.success("Register successfully!");
