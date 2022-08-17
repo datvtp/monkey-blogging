@@ -23,7 +23,7 @@ const StyledPostAddNew = styled.div``;
 const PostAddNew = () => {
   const { userInfo } = useAuth();
 
-  const { control, watch, setValue, getValues, handleSubmit } = useForm({
+  const { control, watch, setValue, getValues, handleSubmit, reset } = useForm({
     mode: "onChange",
     defaultValues: {
       title: "",
@@ -31,15 +31,20 @@ const PostAddNew = () => {
       status: 2,
       categoryId: "",
       hot: false,
+      image: "",
     },
   });
 
-  const { image, progress, handleSelectImage, handleDeleteImage } =
-    useFirebaseImage(setValue, getValues);
+  const {
+    image,
+    progress,
+    handleSelectImage,
+    handleDeleteImage,
+    handleResetUpload,
+  } = useFirebaseImage(setValue, getValues);
 
   const watchStatus = watch("status");
   const watchHot = watch("hot");
-  //const watchCategory = watch("category");
 
   const onDoSubmit = async (values) => {
     const cloneValues = { ...values };
@@ -53,6 +58,18 @@ const PostAddNew = () => {
       userId: userInfo.uid,
     });
 
+    reset({
+      title: "",
+      slug: "",
+      status: 2,
+      categoryId: "",
+      hot: false,
+      image: "",
+    });
+
+    setSelectedCategory({});
+    handleResetUpload();
+
     toast.success("Add new post successfully.");
   };
 
@@ -61,6 +78,12 @@ const PostAddNew = () => {
   };
 
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const handleClickOption = (category) => {
+    setValue("categoryId", category.id);
+    setSelectedCategory(category);
+  };
 
   useEffect(() => {
     async function getData() {
@@ -118,13 +141,15 @@ const PostAddNew = () => {
             <Field>
               <Label>Category</Label>
               <Dropdown>
-                <Dropdown.Select placeholder="Select category"></Dropdown.Select>
+                <Dropdown.Select
+                  placeholder={selectedCategory?.name || "Select category"}
+                ></Dropdown.Select>
                 <Dropdown.List>
                   {categories.length > 0 &&
                     categories.map((category) => (
                       <Dropdown.Option
                         key={category.id}
-                        onClick={() => setValue("categoryId", category.id)}
+                        onClick={() => handleClickOption(category)}
                       >
                         {category.name}
                       </Dropdown.Option>
