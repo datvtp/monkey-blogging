@@ -53,33 +53,47 @@ const PostAddNew = () => {
   const watchStatus = watch("status");
   const watchHot = watch("hot");
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onDoSubmit = async (values) => {
-    const cloneValues = { ...values };
-    cloneValues.slug = slugify(values.slug || values.title, { lower: true });
-    cloneValues.status = Number(values.status);
+    try {
+      setIsLoading(true);
 
-    const colRef = collection(db, "posts");
-    await addDoc(colRef, {
-      ...cloneValues,
-      image,
-      userId: userInfo.uid,
-      createdAt: serverTimestamp(),
-    });
+      const cloneValues = { ...values };
+      cloneValues.slug = slugify(values.slug || values.title, { lower: true });
+      cloneValues.status = Number(values.status);
 
-    reset({
-      title: "",
-      slug: "",
-      status: 2,
-      categoryId: "",
-      hot: false,
-      image: "",
-    });
+      const colRef = collection(db, "posts");
+      await addDoc(colRef, {
+        ...cloneValues,
+        image,
+        userId: userInfo.uid,
+        createdAt: serverTimestamp(),
+      });
 
-    setSelectedCategory({});
-    handleResetUpload();
+      reset({
+        title: "",
+        slug: "",
+        status: 2,
+        categoryId: "",
+        hot: false,
+        image: "",
+      });
 
-    toast.success("Add new post successfully.");
+      setSelectedCategory({});
+      handleResetUpload();
+
+      toast.success("Add new post successfully.");
+    } catch (error) {
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  useEffect(() => {
+    document.title = "Add new post";
+  }, []);
 
   const onDoClickToggle = () => {
     setValue("hot", !watchHot);
@@ -203,7 +217,12 @@ const PostAddNew = () => {
             </Field>
           </div>
         </div>
-        <Button type="submit" className="mx-auto max-w-[200px]">
+        <Button
+          type="submit"
+          className="mx-auto max-w-[200px]"
+          isLoading={isLoading}
+          disabled={isLoading}
+        >
           Add new post
         </Button>
       </form>

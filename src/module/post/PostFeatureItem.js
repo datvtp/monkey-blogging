@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import React, { useEffect, useState } from "react";
 
 import PostMeta from "./PostMeta";
 import PostTitle from "./PostTitle";
@@ -82,6 +82,9 @@ const PostFeatureItem = ({ data }) => {
 
   if (!data || !data.id) return null;
 
+  const date = new Date(data?.createdAt?.seconds * 1000);
+  const formatDate = new Date(date).toLocaleDateString("vi-VN");
+
   return (
     <StyledPostFeatureItem>
       <PostImage url={data.image} alt="post-image" />
@@ -89,11 +92,14 @@ const PostFeatureItem = ({ data }) => {
       <div className="post-content">
         <div className="post-top">
           {category?.name && (
-            <PostCategory>{category.name.toLowerCase()}</PostCategory>
+            <PostCategory to={category.slug}>
+              {category.name.toLowerCase()}
+            </PostCategory>
           )}
           <PostMeta
             authorName={user?.fullname}
-            date={data.createdAt.toDate().toDateString()}
+            date={formatDate}
+            to={user.username}
           ></PostMeta>
         </div>
         <PostTitle size="big">{data.title}</PostTitle>
