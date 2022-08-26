@@ -10,7 +10,7 @@ const StyledButton = styled.button`
   line-height: 28px;
   border-radius: 8px;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 16px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -19,12 +19,8 @@ const StyledButton = styled.button`
   ${(props) =>
     props.variant === "primary" &&
     css`
-      background-image: linear-gradient(
-        to right bottom,
-        ${(props) => props.theme.primary},
-        ${(props) => props.theme.secondary}
-      );
       color: white;
+      background-color: ${(props) => props.theme.primary};
     `};
 
   ${(props) =>

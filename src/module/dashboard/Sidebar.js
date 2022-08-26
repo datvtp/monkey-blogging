@@ -8,18 +8,6 @@ const StyledSidebar = styled.div`
   box-shadow: 10px 10px 20px rgba(218, 213, 213, 0.15);
   border-radius: 12px;
 
-  .sidebar-logo {
-    display: flex;
-    align-items: center;
-    font-weight: 600;
-    gap: 0 20px;
-    img {
-      max-width: 40px;
-    }
-    margin-bottom: 20px;
-    padding: 20px 20px 0;
-  }
-
   .menu-item {
     display: flex;
     align-items: center;
@@ -35,6 +23,10 @@ const StyledSidebar = styled.div`
       background: #f1fbf7;
       color: ${(props) => props.theme.primary};
     }
+  }
+
+  @media screen and (max-width: 1023.98px) {
+    display: none;
   }
 `;
 
@@ -145,10 +137,6 @@ const sidebarLinks = [
 const Sidebar = () => {
   return (
     <StyledSidebar className="sidebar">
-      <div className="sidebar-logo">
-        <img srcSet="/logo.png 2x" alt="" />
-        <span>Monkey Blogging</span>
-      </div>
       {sidebarLinks.map((link, index) => (
         <NavLink key={index} to={link.url} className="menu-item">
           <span className="menu-icon">{link.icon}</span>

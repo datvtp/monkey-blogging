@@ -47,9 +47,9 @@ const PostItem = () => {
         to="/"
       />
 
-      <PostCategory>Kiến thức</PostCategory>
+      <PostCategory>ReactJS</PostCategory>
       <PostTitle>
-        Hướng dẫn setup phòng cực chill dành cho người mới toàn tập
+        The complete guide to learn new languages for beginners.
       </PostTitle>
       <PostMeta></PostMeta>
     </StyledPostItem>
