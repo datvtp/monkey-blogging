@@ -2,12 +2,14 @@ import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./contexts/auth-context";
 
 import CategoryAddNew from "module/category/CategoryAddNew";
+import CategoryManage from "module/category/CategoryManage";
 import HomePage from "pages/HomePage";
 import SignInPage from "pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import PageNotFound from "pages/PageNotFound";
 import UserAddNew from "module/user/UserAddNew";
 import UserProfile from "module/user/UserProfile";
+import UserManage from "module/user/UserManage";
 import PostAddNew from "module/post/PostAddNew";
 import PostManage from "module/post/PostManage";
 import DashboardPage from "pages/DashboardPage";
@@ -34,7 +36,7 @@ function App() {
               element={<DashboardPage></DashboardPage>}
             ></Route>
             <Route
-              path="/manage/post"
+              path="/manage/posts"
               element={<PostManage></PostManage>}
             ></Route>
             <Route
@@ -42,8 +44,16 @@ function App() {
               element={<PostAddNew></PostAddNew>}
             ></Route>
             <Route
+              path="/manage/category"
+              element={<CategoryManage></CategoryManage>}
+            ></Route>
+            <Route
               path="/manage/add-category"
               element={<CategoryAddNew></CategoryAddNew>}
+            ></Route>
+            <Route
+              path="/manage/user"
+              element={<UserManage></UserManage>}
             ></Route>
             <Route
               path="/manage/add-user"
