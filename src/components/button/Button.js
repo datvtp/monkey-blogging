@@ -30,6 +30,13 @@ const StyledButton = styled.button`
       color: ${(props) => props.theme.primary};
     `};
 
+  ${(props) =>
+    props.kind === "ghost" &&
+    css`
+      color: ${(props) => props.theme.primary};
+      background-color: rgba(29, 192, 113, 0.1);
+    `};
+
   &:disabled {
     opacity: 0.7;
     pointer-events: none;

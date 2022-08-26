@@ -1,10 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink, useNavigate } from "react-router-dom";
-
 import { Button } from "components/button";
 import { useAuth } from "contexts/auth-context";
-
+import React from "react";
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
 const menuLinks = [
   {
     url: "/",
@@ -20,53 +18,52 @@ const menuLinks = [
   },
 ];
 
-const StyledHeader = styled.div`
-  padding: 32px 0;
-
-  .logo {
-    display: block;
-    max-width: 48px;
-  }
-
+const HeaderStyles = styled.header`
+  padding: 20px 0;
   .header-main {
     display: flex;
     align-items: center;
   }
-
+  .header-auth {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .logo {
+    display: block;
+    max-width: 50px;
+  }
   .menu {
     display: flex;
     align-items: center;
-    gap: 24px;
-    margin-left: 44px;
+    gap: 20px;
+    margin-left: 40px;
     list-style: none;
     font-weight: 500;
   }
-
   .search {
-    position: relative;
-    margin-left: 32px;
-    padding: 12px 24px;
-    border: 2px solid ${(props) => props.theme.primary};
+    margin-left: auto;
+    padding: 15px 25px;
+    border: 1px solid #ccc;
     border-radius: 8px;
     width: 100%;
-    max-width: 480px;
+    max-width: 320px;
     display: flex;
     align-items: center;
+    position: relative;
+    margin-right: 20px;
   }
-
   .search-input {
     flex: 1;
-    padding-right: 36px;
+    padding-right: 45px;
     font-weight: 500;
   }
-
   .search-icon {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: 24px;
+    right: 25px;
   }
-
   @media screen and (max-width: 1023.98px) {
     .logo {
       max-width: 30px;
@@ -78,30 +75,11 @@ const StyledHeader = styled.div`
       display: none;
     }
   }
-
-  .header-button {
-    margin-left: auto;
-  }
-
-  .display-name {
-    margin-left: auto;
-  }
 `;
-
-const getLastName = (name) => {
-  return name.split(" ").slice(-1).join(" ");
-};
-
 const Header = () => {
   const { userInfo } = useAuth();
-
-  const navigate = useNavigate();
-  const handleOnClickSignUpButton = () => {
-    navigate("/sign-up");
-  };
-
   return (
-    <StyledHeader>
+    <HeaderStyles>
       <div className="container">
         <div className="header-main">
           <NavLink to="/">
@@ -116,7 +94,6 @@ const Header = () => {
               </li>
             ))}
           </ul>
-
           <div className="search">
             <input
               type="text"
@@ -156,26 +133,28 @@ const Header = () => {
           </div>
           {!userInfo ? (
             <Button
-              className="header-button max-w-[160px]"
-              onClick={handleOnClickSignUpButton}
+              type="button"
+              height="56px"
+              className="header-button"
+              to="/sign-in"
             >
-              Sign Un
+              Login
             </Button>
           ) : (
-            <div className="display-name">
-              {userInfo?.displayName && (
-                <>
-                  <span>Welcome back, </span>
-                  <strong className="primary-text">
-                    {getLastName(userInfo?.displayName)}
-                  </strong>
-                </>
-              )}
+            <div className="header-auth">
+              <Button
+                type="button"
+                height="56px"
+                className="header-button"
+                to="/dashboard"
+              >
+                Dashboard
+              </Button>
             </div>
           )}
         </div>
       </div>
-    </StyledHeader>
+    </HeaderStyles>
   );
 };
 

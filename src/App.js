@@ -4,7 +4,7 @@ import { AuthProvider } from "./contexts/auth-context";
 import HomePage from "pages/HomePage";
 import SignInPage from "pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
-import NotFoundPage from "pages/NotFoundPage";
+import PageNotFound from "pages/PageNotFound";
 import PostAddNew from "module/post/PostAddNew";
 import PostManage from "module/post/PostManage";
 import DashboardPage from "pages/DashboardPage";
@@ -19,7 +19,7 @@ function App() {
           <Route path="/" element={<HomePage></HomePage>}></Route>
           <Route path="/sign-in" element={<SignInPage></SignInPage>}></Route>
           <Route path="/sign-up" element={<SignUpPage></SignUpPage>}></Route>
-          <Route path="*" element={<NotFoundPage></NotFoundPage>}></Route>
+          <Route path="*" element={<PageNotFound></PageNotFound>}></Route>
 
           <Route
             path="/:slug"
