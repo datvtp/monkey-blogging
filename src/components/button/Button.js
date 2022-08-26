@@ -31,7 +31,7 @@ const StyledButton = styled.button`
     `};
 
   ${(props) =>
-    props.kind === "ghost" &&
+    props.variant === "ghost" &&
     css`
       color: ${(props) => props.theme.primary};
       background-color: rgba(29, 192, 113, 0.1);
@@ -70,7 +70,7 @@ Button.propTypes = {
   isLoading: PropTypes.bool,
   onClick: PropTypes.func,
   children: PropTypes.node,
-  variant: PropTypes.oneOf(["primary", "secondary"]),
+  variant: PropTypes.oneOf(["primary", "secondary", "ghost"]),
 };
 
 export default Button;

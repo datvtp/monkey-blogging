@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Table } from "components/table";
 import { Button } from "components/button";
 import { Dropdown } from "components/dropdown";
+import DashboardHeading from "module/dashboard/DashboardHeading";
 
 const StyledSearchInput = styled.div`
   position: relative;
@@ -33,9 +34,11 @@ const StyledSearchInput = styled.div`
 const PostManage = () => {
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <h1 className="dashboard-heading">Manage post</h1>
-        <p className="dashboard-short-desc">Manage all posts</p>
+      <div>
+        <DashboardHeading
+          title="All posts"
+          desc="Manage all posts"
+        ></DashboardHeading>
         <div className="mb-10 flex justify-end gap-5">
           <div className="w-full max-w-[200px]">
             <Dropdown>
@@ -179,7 +182,7 @@ const PostManage = () => {
       </Table>
       <div className="mt-10 text-center">
         {/* <Pagination></Pagination> */}
-        <Button kind="ghost" className="mx-auto w-[200px]">
+        <Button variant="ghost" className="mx-auto w-[200px]">
           See more+
         </Button>
       </div>

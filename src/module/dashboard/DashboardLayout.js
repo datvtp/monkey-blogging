@@ -20,7 +20,6 @@ const StyledDashboard = styled.div`
     }
     &-short-desc {
       font-size: 14px;
-      margin-bottom: 20px;
       color: ${(props) => props.theme.gray80};
     }
 
@@ -36,9 +35,6 @@ const StyledDashboard = styled.div`
       &-heading {
         font-size: 20px;
       }
-      &-short-desc {
-        margin-bottom: 25px;
-      }
       &-main {
         grid-template-columns: 100%;
         padding: 20px;
@@ -47,7 +43,7 @@ const StyledDashboard = styled.div`
   }
 `;
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = () => {
   const { userInfo } = useAuth();
 
   if (!userInfo) {

@@ -16,7 +16,7 @@ import {
 } from "firebase/firestore";
 
 import { Radio } from "components/radio";
-import { Field } from "components/field";
+import { Field, FieldCheckboxes } from "components/field";
 import { Input } from "components/input";
 import { Label } from "components/label";
 import { Button } from "components/button";
@@ -24,6 +24,7 @@ import { Toggle } from "components/toggle";
 import { postStatus } from "utils/constants";
 import { Dropdown } from "components/dropdown";
 import { ImageUpload } from "components/image";
+import DashboardHeading from "module/dashboard/DashboardHeading";
 
 const StyledPostAddNew = styled.div``;
 
@@ -124,8 +125,7 @@ const PostAddNew = () => {
 
   return (
     <StyledPostAddNew>
-      <h1 className="dashboard-heading">Add post</h1>
-      <p className="dashboard-short-desc">Add new post</p>
+      <DashboardHeading title="Add post" desc="Add new post"></DashboardHeading>
       <form
         onSubmit={handleSubmit(onDoSubmit)}
         autoComplete="off"
@@ -182,7 +182,7 @@ const PostAddNew = () => {
             </Field>
             <Field>
               <Label>Status</Label>
-              <div className="flex items-center gap-5 flex-wrap">
+              <FieldCheckboxes>
                 <Radio
                   name="status"
                   control={control}
@@ -210,7 +210,7 @@ const PostAddNew = () => {
                 >
                   Reject
                 </Radio>
-              </div>
+              </FieldCheckboxes>
             </Field>
             <Field>
               <Label>Featured</Label>
