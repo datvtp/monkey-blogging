@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 import { Table } from "components/table";
 import DashboardHeading from "module/dashboard/DashboardHeading";
 import { Button } from "components/button";
 import { LabelStatus } from "components/label";
 import { ActionDelete, ActionEdit, ActionView } from "components/action";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { db } from "firebase-app/firebase-config";
-import { categoryStatus } from "utils/constants";
+import { categoryStatus, theme } from "utils/constants";
 
 const CategoryManage = () => {
   const navigate = useNavigate();
@@ -28,6 +29,25 @@ const CategoryManage = () => {
       setCategories(results);
     });
   }, []);
+
+  const handleDelete = async (docId) => {
+    const deletedDocRef = doc(db, "categories", docId);
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: theme.primary,
+      cancelButtonColor: theme.grey6B,
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await deleteDoc(deletedDocRef);
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+      }
+    });
+  };
 
   return (
     <div>
@@ -73,7 +93,11 @@ const CategoryManage = () => {
                   <div className="flex items-center gap-x-3">
                     <ActionView></ActionView>
                     <ActionEdit></ActionEdit>
-                    <ActionDelete></ActionDelete>
+                    <ActionDelete
+                      onClick={() => {
+                        handleDelete(category.id);
+                      }}
+                    ></ActionDelete>
                   </div>
                 </td>
               </tr>
