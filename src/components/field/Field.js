@@ -13,8 +13,8 @@ const StyledField = styled.div`
   }
 `;
 
-const Field = ({ children }) => {
-  return <StyledField>{children}</StyledField>;
+const Field = ({ children, className = "" }) => {
+  return <StyledField className={className}>{children}</StyledField>;
 };
 
 export default Field;

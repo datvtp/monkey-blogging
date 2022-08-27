@@ -84,7 +84,7 @@ const PostAddNew = () => {
       setSelectedCategory({});
       handleResetUpload();
 
-      toast.success("Add new post successfully.");
+      toast.success("Create new post successfully!");
     } catch (error) {
       setIsLoading(false);
     } finally {
@@ -160,7 +160,7 @@ const PostAddNew = () => {
             ></ImageUpload>
           </Field>
 
-          <div className="form-layout">
+          <div className="flex flex-col gap-y-5">
             <Field>
               <Label>Category</Label>
               <Dropdown>
@@ -180,44 +180,50 @@ const PostAddNew = () => {
                 </Dropdown.List>
               </Dropdown>
             </Field>
-            <Field>
-              <Label>Status</Label>
-              <FieldCheckboxes>
-                <Radio
-                  name="status"
-                  control={control}
-                  checked={Number(watchStatus) === postStatus.APPROVED}
-                  onClick={() => setValue("status", "approved")}
-                  value={postStatus.APPROVED}
-                >
-                  Approved
-                </Radio>
-                <Radio
-                  name="status"
-                  control={control}
-                  checked={Number(watchStatus) === postStatus.PENDING}
-                  onClick={() => setValue("status", "pending")}
-                  value={postStatus.PENDING}
-                >
-                  Pending
-                </Radio>
-                <Radio
-                  name="status"
-                  control={control}
-                  checked={Number(watchStatus) === postStatus.REJECTED}
-                  onClick={() => setValue("status", "reject")}
-                  value={postStatus.REJECTED}
-                >
-                  Reject
-                </Radio>
-              </FieldCheckboxes>
-            </Field>
-            <Field>
-              <Label>Featured</Label>
-              <Toggle on={watchHot === true} onClick={onDoClickToggle}></Toggle>
-            </Field>
+            <div className="grid grid-cols-3 mb-5 lg:grid-cols-4 lg:gap-x-10">
+              <Field>
+                <Label>Featured</Label>
+                <Toggle
+                  on={watchHot === true}
+                  onClick={onDoClickToggle}
+                ></Toggle>
+              </Field>
+              <Field className="col-span-3">
+                <Label>Status</Label>
+                <FieldCheckboxes>
+                  <Radio
+                    name="status"
+                    control={control}
+                    checked={Number(watchStatus) === postStatus.APPROVED}
+                    onClick={() => setValue("status", "approved")}
+                    value={postStatus.APPROVED}
+                  >
+                    Approved
+                  </Radio>
+                  <Radio
+                    name="status"
+                    control={control}
+                    checked={Number(watchStatus) === postStatus.PENDING}
+                    onClick={() => setValue("status", "pending")}
+                    value={postStatus.PENDING}
+                  >
+                    Pending
+                  </Radio>
+                  <Radio
+                    name="status"
+                    control={control}
+                    checked={Number(watchStatus) === postStatus.REJECTED}
+                    onClick={() => setValue("status", "reject")}
+                    value={postStatus.REJECTED}
+                  >
+                    Reject
+                  </Radio>
+                </FieldCheckboxes>
+              </Field>
+            </div>
           </div>
         </div>
+
         <Button
           type="submit"
           className="mx-auto max-w-[200px]"

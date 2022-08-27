@@ -56,7 +56,7 @@ const Button = ({
   ...props
 }) => {
   const { isLoading } = props;
-  const child = !!isLoading ? <LoadingSpinner size="24px" /> : children;
+  const child = !!isLoading ? <LoadingSpinner size="28px" /> : children;
 
   return (
     <StyledButton type={type} onClick={onClick} variant={variant} {...props}>

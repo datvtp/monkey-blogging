@@ -24,7 +24,6 @@ const StyledDashboardHeader = styled.div`
   }
 
   .header-avatar {
-    width: 52px;
     height: 52px;
     img {
       width: 100%;

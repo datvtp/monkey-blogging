@@ -13,12 +13,16 @@ const StyledInput = styled.div`
     padding: ${(props) =>
       props.hasIcon ? "15px 60px 15px 25px" : "15px 25px"};
     background-color: transparent;
-    border: 1px solid ${(props) => props.theme.greyf1};
+    border: 2px solid ${(props) => props.theme.greyf1};
     border-radius: 8px;
     font-weight: 500;
     transition: all 0.2s linear;
     color: ${(props) => props.theme.black};
     font-size: 14px;
+
+    :focus {
+      border: 2px solid ${(props) => props.theme.primary};
+    }
   }
 
   input::-webkit-input-placeholder {
