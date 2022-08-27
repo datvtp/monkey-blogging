@@ -9,6 +9,8 @@ import DashboardHeader from "./DashboardHeader";
 
 const StyledDashboard = styled.div`
   max-width: 1600px;
+  max-height: 100vh;
+  overflow: hidden;
   margin: 0 auto;
 
   .dashboard {
@@ -26,7 +28,7 @@ const StyledDashboard = styled.div`
     &-main {
       display: grid;
       grid-template-columns: 300px minmax(0, 1fr);
-      padding: 40px 20px;
+      padding: 0px 20px;
       gap: 0 40px;
       align-items: start;
     }
@@ -40,6 +42,20 @@ const StyledDashboard = styled.div`
         padding: 20px;
       }
     }
+  }
+
+  .dashboard-children {
+    height: calc(100vh - 93px);
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+
+  .sidebar {
+    margin-top: 40px;
+  }
+
+  .dashboard-heading-container {
+    margin-top: 40px;
   }
 `;
 
@@ -55,7 +71,7 @@ const DashboardLayout = () => {
       <DashboardHeader></DashboardHeader>
       <div className="dashboard-main">
         <Sidebar></Sidebar>
-        <div className="dashboard-children">
+        <div className="dashboard-children scrollbar-hide">
           <Outlet></Outlet>
         </div>
       </div>

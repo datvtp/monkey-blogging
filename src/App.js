@@ -15,6 +15,7 @@ import PostManage from "module/post/PostManage";
 import DashboardPage from "pages/DashboardPage";
 import { DashboardLayout } from "module/dashboard";
 import PostDetailsPage from "pages/PostDetailsPage";
+import CategoryUpdate from "module/category/CategoryUpdate";
 
 function App() {
   return (
@@ -50,6 +51,10 @@ function App() {
             <Route
               path="/manage/add-category"
               element={<CategoryAddNew></CategoryAddNew>}
+            ></Route>
+            <Route
+              path="/manage/update-category"
+              element={<CategoryUpdate></CategoryUpdate>}
             ></Route>
             <Route
               path="/manage/user"

@@ -30,8 +30,12 @@ const CategoryManage = () => {
     });
   }, []);
 
-  const handleDelete = async (docId) => {
-    const deletedDocRef = doc(db, "categories", docId);
+  const handleUpdate = (categoryId) => {
+    navigate(`/manage/update-category?id=${categoryId}`);
+  };
+
+  const handleDelete = async (categoryId) => {
+    const deletedDocRef = doc(db, "categories", categoryId);
 
     Swal.fire({
       title: "Are you sure?",
@@ -86,13 +90,17 @@ const CategoryManage = () => {
                     <LabelStatus type="success">APPROVED</LabelStatus>
                   )}
                   {category.status === categoryStatus.UNAPPROVED && (
-                    <LabelStatus type="danger">UNAPPROVED</LabelStatus>
+                    <LabelStatus type="warning">UNAPPROVED</LabelStatus>
                   )}
                 </td>
                 <td>
                   <div className="flex items-center gap-x-3">
                     <ActionView></ActionView>
-                    <ActionEdit></ActionEdit>
+                    <ActionEdit
+                      onClick={() => {
+                        handleUpdate(category.id);
+                      }}
+                    ></ActionEdit>
                     <ActionDelete
                       onClick={() => {
                         handleDelete(category.id);
