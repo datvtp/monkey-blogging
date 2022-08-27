@@ -27,7 +27,7 @@ const StyledButton = styled.button`
   ${(props) =>
     props.variant === "secondary" &&
     css`
-      background-color: #f1fbf7;
+      background-color: #dcfce7;
       color: ${(props) => props.theme.primary};
     `};
 

@@ -20,7 +20,7 @@ const StyledSidebar = styled.div`
 
     &.active,
     &:hover {
-      background: #f1fbf7;
+      background: #dcfce7;
       color: ${(props) => props.theme.primary};
     }
   }
