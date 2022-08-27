@@ -9,6 +9,7 @@ const StyledButton = styled.button`
   padding: 12px;
   line-height: 28px;
   border-radius: 8px;
+  height: 52px;
   font-weight: 600;
   font-size: 16px;
   width: 100%;
@@ -26,7 +27,7 @@ const StyledButton = styled.button`
   ${(props) =>
     props.variant === "secondary" &&
     css`
-      background-color: white;
+      background-color: #f1fbf7;
       color: ${(props) => props.theme.primary};
     `};
 
