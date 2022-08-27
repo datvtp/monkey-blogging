@@ -48,6 +48,7 @@ const StyledDashboard = styled.div`
     height: calc(100vh - 93px);
     overflow-y: auto;
     scroll-behavior: smooth;
+    padding-bottom: 20px;
   }
 
   .sidebar {
