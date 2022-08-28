@@ -1,21 +1,24 @@
 import { Button } from "components/button";
-import { Radio } from "components/radio";
 import { Field, FieldCheckboxes } from "components/field";
+import { ImageUpload } from "components/image";
 import { Input } from "components/input";
 import { Label } from "components/label";
-import DashboardHeading from "module/dashboard/DashboardHeading";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { ImageUpload } from "components/image";
-import { userRole, userStatus } from "utils/constants";
+import { Radio } from "components/radio";
+import { db } from "firebase-app/firebase-config";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import useFirebaseImage from "hook/useFirebaseImage";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, db } from "firebase-app/firebase-config";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import slugify from "slugify";
+import DashboardHeading from "module/dashboard/DashboardHeading";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { userRole, userStatus } from "utils/constants";
 
-const UserAddNew = () => {
+const UserUpdate = () => {
+  const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const userId = params.get("id");
+
   const {
     control,
     handleSubmit,
@@ -41,66 +44,58 @@ const UserAddNew = () => {
   const watchStatus = watch("status");
   const watchRole = watch("role");
 
-  const {
-    image,
-    progress,
-    handleSelectImage,
-    handleDeleteImage,
-    handleResetUpload,
-  } = useFirebaseImage(setValue, getValues);
+  const { image, progress, handleSelectImage, handleDeleteImage } =
+    useFirebaseImage(setValue, getValues);
 
-  const handleCreateUser = async (values) => {
+  const imageURL = getValues("avatar");
+
+  const handleUpdateUser = async (values) => {
     if (!isValid) return;
 
     try {
-      await createUserWithEmailAndPassword(auth, values.email, values.password);
-      await updateProfile(auth.currentUser, {
-        displayName: values.fullname,
-        photoURL: image,
-      });
-      await addDoc(collection(db, "users"), {
-        fullname: values.fullname,
-        email: values.email,
-        password: values.password,
-        username: slugify(values.username || values.fullname, {
-          lower: true,
-          replacement: "",
-          trim: true,
-        }),
-        avatar: image,
+      const colRef = doc(db, "users", userId);
+
+      await updateDoc(colRef, {
+        ...values,
         status: Number(values.status),
         role: Number(values.role),
-        createdAt: serverTimestamp(),
       });
 
-      toast.success("Create user successfully");
-      reset({
-        fullname: "",
-        email: "",
-        password: "",
-        username: "",
-        avatar: "",
-        status: userStatus.ACTIVE,
-        role: userRole.USER,
-        createdAt: new Date(),
-      });
-      handleResetUpload();
+      navigate("/manage/user");
+      toast.success("Update user info successfully!");
     } catch (error) {
       toast.error(error.message);
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!userId) return;
+
+      const colRef = doc(db, "users", userId);
+      const docData = await getDoc(colRef);
+
+      reset(docData && docData.data());
+    };
+
+    fetchData();
+  }, [reset, userId]);
+
+  if (!userId) {
+    return null;
+  }
+
   return (
     <div>
       <DashboardHeading
-        title="New user"
-        desc="Add new user to system"
+        title="Update user"
+        desc="Update user information"
       ></DashboardHeading>
-      <form onSubmit={handleSubmit(handleCreateUser)} autoComplete="off">
+      <form onSubmit={handleSubmit(handleUpdateUser)} autoComplete="off">
         <ImageUpload
           className="mb-10"
           progress={progress}
-          image={image}
+          image={imageURL}
           onChange={handleSelectImage}
           handleDeleteImage={handleDeleteImage}
         ></ImageUpload>
@@ -209,11 +204,11 @@ const UserAddNew = () => {
           isLoading={isSubmitting}
           disabled={isSubmitting}
         >
-          Add new user
+          Update user
         </Button>
       </form>
     </div>
   );
 };
 
-export default UserAddNew;
+export default UserUpdate;

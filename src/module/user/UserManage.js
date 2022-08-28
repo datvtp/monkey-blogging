@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { db } from "firebase-app/firebase-config";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 
 import { Table } from "components/table";
 import { LabelStatus } from "components/label";
 import DashboardHeading from "module/dashboard/DashboardHeading";
 import { ActionDelete, ActionEdit } from "components/action";
 import { useNavigate } from "react-router-dom";
-import { userRole, userStatus } from "utils/constants";
+import { theme, userRole, userStatus } from "utils/constants";
 import { Button } from "components/button";
+import Swal from "sweetalert2";
 
 const UserManage = () => {
   const navigate = useNavigate();
@@ -34,6 +35,25 @@ const UserManage = () => {
     navigate(`/manage/update-user?id=${userId}`);
   };
 
+  const handleDelete = async (user) => {
+    const deletedDocRef = doc(db, "users", user.id);
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: theme.primary,
+      cancelButtonColor: theme.grey6B,
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await deleteDoc(deletedDocRef);
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+      }
+    });
+  };
+
   return (
     <div>
       <DashboardHeading title="Users" desc="Manage your user">
@@ -45,7 +65,7 @@ const UserManage = () => {
               navigate("/manage/add-user");
             }}
           >
-            Create category
+            Create user
           </Button>
         </div>
       </DashboardHeading>
@@ -108,11 +128,11 @@ const UserManage = () => {
                 <td>
                   <div className="flex items-center gap-x-3">
                     <ActionEdit
-                      onClick={() => {
-                        handleUpdate(user.id);
-                      }}
+                      onClick={() => handleUpdate(user.id)}
                     ></ActionEdit>
-                    <ActionDelete></ActionDelete>
+                    <ActionDelete
+                      onClick={() => handleDelete(user)}
+                    ></ActionDelete>
                   </div>
                 </td>
               </tr>

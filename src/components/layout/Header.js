@@ -146,7 +146,7 @@ const Header = () => {
               <Button
                 type="button"
                 className="header-button max-w-[200px]"
-                onClick={() => navigate("/manage/category")}
+                onClick={() => navigate("/dashboard")}
               >
                 Dashboard
               </Button>

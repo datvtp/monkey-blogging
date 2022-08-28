@@ -56,9 +56,13 @@ const DashboardHeader = () => {
           Write new post
         </Button>
         <div className="flex items-center">
-          <NavLink to="/profile" className="header-avatar">
-            <img src={userInfo.photoURL} alt="" />
-          </NavLink>
+          {userInfo.photoURL ? (
+            <NavLink to="/profile" className="header-avatar">
+              <img src={userInfo.photoURL} alt="" />
+            </NavLink>
+          ) : (
+            <div className="w-[52px] h-[52px] rounded-full bg-primary"></div>
+          )}
         </div>
       </div>
     </StyledDashboardHeader>
