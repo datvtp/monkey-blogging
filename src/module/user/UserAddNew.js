@@ -6,18 +6,44 @@ import { Label } from "components/label";
 import DashboardHeading from "module/dashboard/DashboardHeading";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { ImageUpload } from "components/image";
+import { userRole, userStatus } from "utils/constants";
+import useFirebaseImage from "hook/useFirebaseImage";
 
 const UserAddNew = () => {
-  const { control } = useForm({
+  const { control, handleSubmit, watch, setValue, getValues } = useForm({
     mode: "onChange",
   });
+
+  const watchStatus = watch("status");
+  const watchRole = watch("role");
+
+  const {
+    image,
+    progress,
+    handleSelectImage,
+    handleDeleteImage,
+    handleResetUpload,
+  } = useFirebaseImage(setValue, getValues);
+
+  const handleCreateUser = async (values) => {
+    handleResetUpload();
+  };
+
   return (
     <div>
       <DashboardHeading
         title="New user"
         desc="Add new user to system"
       ></DashboardHeading>
-      <form>
+      <form onSubmit={handleSubmit(handleCreateUser)} autoComplete="off">
+        <ImageUpload
+          className="mb-10"
+          progress={progress}
+          image={image}
+          onChange={handleSelectImage}
+          handleDeleteImage={handleDeleteImage}
+        ></ImageUpload>
         <div className="form-layout">
           <Field>
             <Label>Fullname</Label>
@@ -60,13 +86,28 @@ const UserAddNew = () => {
           <Field>
             <Label>Status</Label>
             <FieldCheckboxes>
-              <Radio name="status" control={control}>
+              <Radio
+                name="status"
+                control={control}
+                checked={Number(watchStatus) === userStatus.ACTIVE}
+                value={userStatus.ACTIVE}
+              >
                 Active
               </Radio>
-              <Radio name="status" control={control}>
+              <Radio
+                name="status"
+                control={control}
+                checked={Number(watchStatus) === userStatus.PENDING}
+                value={userStatus.PENDING}
+              >
                 Pending
               </Radio>
-              <Radio name="status" control={control}>
+              <Radio
+                name="status"
+                control={control}
+                checked={Number(watchStatus) === userStatus.BAN}
+                value={userStatus.BAN}
+              >
                 Banned
               </Radio>
             </FieldCheckboxes>
@@ -74,22 +115,38 @@ const UserAddNew = () => {
           <Field>
             <Label>Role</Label>
             <FieldCheckboxes>
-              <Radio name="role" control={control}>
+              <Radio
+                name="role"
+                control={control}
+                checked={Number(watchRole) === userRole.ADMIN}
+                value={userRole.ADMIN}
+              >
                 Admin
               </Radio>
-              <Radio name="role" control={control}>
+              <Radio
+                name="role"
+                control={control}
+                checked={Number(watchStatus) === userRole.MOD}
+                value={userRole.MOD}
+              >
                 Moderator
               </Radio>
-              <Radio name="role" control={control}>
-                Editor
-              </Radio>
-              <Radio name="role" control={control}>
+              <Radio
+                name="role"
+                control={control}
+                checked={Number(watchStatus) === userRole.USER}
+                value={userRole.USER}
+              >
                 User
               </Radio>
             </FieldCheckboxes>
           </Field>
         </div>
-        <Button kind="primary" className="mx-auto w-[200px]">
+        <Button
+          variant="primary"
+          type="submit"
+          className="mx-auto max-w-[200px]"
+        >
           Add new user
         </Button>
       </form>

@@ -1,7 +1,7 @@
 import { Button } from "components/button";
 import { useAuth } from "contexts/auth-context";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 const menuLinks = [
   {
@@ -77,7 +77,9 @@ const HeaderStyles = styled.header`
   }
 `;
 const Header = () => {
+  const navigate = useNavigate();
   const { userInfo } = useAuth();
+
   return (
     <HeaderStyles>
       <div className="container">
@@ -134,9 +136,8 @@ const Header = () => {
           {!userInfo ? (
             <Button
               type="button"
-              height="56px"
-              className="header-button"
-              to="/sign-in"
+              className="header-button max-w-[200px]"
+              onClick={() => navigate("/sign-in")}
             >
               Login
             </Button>
@@ -144,9 +145,8 @@ const Header = () => {
             <div className="header-auth">
               <Button
                 type="button"
-                height="56px"
-                className="header-button"
-                to="/dashboard"
+                className="header-button max-w-[200px]"
+                onClick={() => navigate("/manage/category")}
               >
                 Dashboard
               </Button>

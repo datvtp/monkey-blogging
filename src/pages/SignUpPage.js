@@ -1,7 +1,7 @@
 import * as yup from "yup";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { NavLink, useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,6 +14,7 @@ import AuthenticationPage from "./AuthenticationPage";
 import { auth, db } from "firebase-app/firebase-config";
 import { Input, InputPasswordToggle } from "components/input";
 import slugify from "slugify";
+import { userRole, userStatus } from "utils/constants";
 
 const schema = yup.object({
   fullname: yup.string().required("Please enter your fullname"),
@@ -45,6 +46,8 @@ const SignUpPage = () => {
     await createUserWithEmailAndPassword(auth, values.email, values.password);
     await updateProfile(auth.currentUser, {
       displayName: values.fullname,
+      photoURL:
+        "https://images.unsplash.com/photo-1627693685101-687bf0eb1222?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
     });
 
     await setDoc(doc(db, "users", auth.currentUser.uid), {
@@ -52,6 +55,11 @@ const SignUpPage = () => {
       email: values.email,
       password: values.password,
       username: slugify(values.fullname, { lower: true }),
+      avatar:
+        "https://images.unsplash.com/photo-1627693685101-687bf0eb1222?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
+      status: userStatus.ACTIVE,
+      role: userRole.USER,
+      createdAt: serverTimestamp(),
     });
 
     toast.success("Register successfully!");

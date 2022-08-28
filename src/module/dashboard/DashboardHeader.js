@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
 import { Button } from "components/button";
+import { useAuth } from "contexts/auth-context";
 
 const StyledDashboardHeader = styled.div`
   background-color: white;
@@ -24,6 +25,7 @@ const StyledDashboardHeader = styled.div`
   }
 
   .header-avatar {
+    width: 52px;
     height: 52px;
     img {
       width: 100%;
@@ -41,6 +43,8 @@ const StyledDashboardHeader = styled.div`
 `;
 
 const DashboardHeader = () => {
+  const { userInfo } = useAuth();
+
   return (
     <StyledDashboardHeader>
       <NavLink to="/" className="logo">
@@ -51,12 +55,11 @@ const DashboardHeader = () => {
         <Button to="/manage/add-post" className="header-button">
           Write new post
         </Button>
-        <NavLink to="/profile" className="header-avatar">
-          <img
-            src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3270&q=80"
-            alt=""
-          />
-        </NavLink>
+        <div className="flex items-center">
+          <NavLink to="/profile" className="header-avatar">
+            <img src={userInfo.photoURL} alt="" />
+          </NavLink>
+        </div>
       </div>
     </StyledDashboardHeader>
   );
