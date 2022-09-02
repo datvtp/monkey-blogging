@@ -4,10 +4,13 @@ import { Table } from "components/table";
 import { Button } from "components/button";
 import DashboardHeading from "module/dashboard/DashboardHeading";
 import { useNavigate } from "react-router-dom";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { db } from "firebase-app/firebase-config";
 import { debounce } from "lodash";
 import { ActionDelete, ActionEdit, ActionView } from "components/action";
+import Swal from "sweetalert2";
+import { postStatus, theme } from "utils/constants";
+import { LabelStatus } from "components/label";
 
 const PostManage = () => {
   const navigate = useNavigate();
@@ -41,6 +44,25 @@ const PostManage = () => {
     });
   }, [filter]);
 
+  const handleDelete = async (postId) => {
+    const deletedDocRef = doc(db, "posts", postId);
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: theme.primary,
+      cancelButtonColor: theme.grey6B,
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await deleteDoc(deletedDocRef);
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+      }
+    });
+  };
+
   return (
     <div>
       <DashboardHeading title="All posts" desc="Manage all posts">
@@ -70,6 +92,7 @@ const PostManage = () => {
             <th>Post</th>
             <th>Category</th>
             <th>Author</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -77,7 +100,7 @@ const PostManage = () => {
           {posts.length > 0 &&
             posts.map((post) => (
               <tr>
-                <td>{post.id}</td>
+                <td>{post.id.slice(0, 5)}</td>
                 <td>
                   <div className="flex items-center gap-x-3">
                     <img
@@ -87,8 +110,8 @@ const PostManage = () => {
                     />
                     <div className="flex-1">
                       <h3 className="font-semibold">
-                        {post.title.length > 20
-                          ? post.title.slice(0, 20) + "..."
+                        {post.title.length > 25
+                          ? post.title.slice(0, 25) + "..."
                           : post.title}
                       </h3>
                       <time className="text-sm text-gray-500">
@@ -106,14 +129,33 @@ const PostManage = () => {
                   <span className="text-gray-500">{post.user.fullname}</span>
                 </td>
                 <td>
+                  {post.status === postStatus.APPROVED && (
+                    <LabelStatus type="success">APPROVED</LabelStatus>
+                  )}
+                  {post.status === postStatus.PENDING && (
+                    <LabelStatus type="warning">PENDING</LabelStatus>
+                  )}
+                  {post.status === postStatus.REJECTED && (
+                    <LabelStatus type="danger">REJECTED</LabelStatus>
+                  )}
+                </td>
+                <td>
                   <div className="flex items-center gap-x-3">
                     <ActionView
                       onClick={() => {
                         navigate(`/${post.slug}`);
                       }}
                     ></ActionView>
-                    <ActionEdit></ActionEdit>
-                    <ActionDelete></ActionDelete>
+                    <ActionEdit
+                      onClick={() => {
+                        navigate(`/manage/update-post?id=${post.id}`);
+                      }}
+                    ></ActionEdit>
+                    <ActionDelete
+                      onClick={() => {
+                        handleDelete(post.id);
+                      }}
+                    ></ActionDelete>
                   </div>
                 </td>
               </tr>
