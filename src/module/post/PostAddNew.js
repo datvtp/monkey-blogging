@@ -90,7 +90,6 @@ const PostAddNew = () => {
       await addDoc(colRef, {
         ...cloneValues,
         image,
-        userId: userInfo.uid,
         createdAt: serverTimestamp(),
       });
 
@@ -101,6 +100,7 @@ const PostAddNew = () => {
         category: {},
         hot: false,
         image: "",
+        user: { ...cloneValues.user },
       });
 
       setSelectedCategory({});
