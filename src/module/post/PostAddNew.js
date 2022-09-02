@@ -9,6 +9,8 @@ import useFirebaseImage from "hook/useFirebaseImage";
 import {
   addDoc,
   collection,
+  doc,
+  getDoc,
   getDocs,
   query,
   serverTimestamp,
@@ -37,11 +39,31 @@ const PostAddNew = () => {
       title: "",
       slug: "",
       status: 2,
-      categoryId: "",
+      category: {},
+      user: {},
       hot: false,
       image: "",
     },
   });
+
+  useEffect(() => {
+    async function fetchData() {
+      if (!userInfo.email) return;
+      const q = query(
+        collection(db, "users"),
+        where("email", "==", userInfo.email)
+      );
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach((doc) => {
+        setValue("user", { id: doc.id, ...doc.data() });
+      });
+    }
+
+    fetchData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userInfo.email]);
 
   const {
     image,
@@ -76,7 +98,7 @@ const PostAddNew = () => {
         title: "",
         slug: "",
         status: 2,
-        categoryId: "",
+        category: {},
         hot: false,
         image: "",
       });
@@ -103,8 +125,11 @@ const PostAddNew = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  const handleClickOption = (category) => {
-    setValue("categoryId", category.id);
+  const handleClickOption = async (category) => {
+    const colRef = doc(db, "categories", category.id);
+    const docData = await getDoc(colRef);
+
+    setValue("category", { id: docData.id, ...docData.data() });
     setSelectedCategory(category);
   };
 

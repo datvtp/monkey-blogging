@@ -1,12 +1,10 @@
 import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import PostMeta from "./PostMeta";
 import PostTitle from "./PostTitle";
 import PostImage from "./PostImage";
 import PostCategory from "./PostCategory";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "firebase-app/firebase-config";
 
 const StyledPostFeatureItem = styled.div`
   width: 100%;
@@ -59,27 +57,6 @@ const StyledPostFeatureItem = styled.div`
 `;
 
 const PostFeatureItem = ({ data }) => {
-  const [category, setCategory] = useState("");
-  const [user, setUser] = useState("");
-
-  useEffect(() => {
-    async function fetchCategory() {
-      const docRef = doc(db, "categories", data.categoryId);
-      const docSnap = await getDoc(docRef);
-      setCategory(docSnap.data());
-    }
-    fetchCategory();
-  }, [data.categoryId]);
-
-  useEffect(() => {
-    async function fetchUser() {
-      const docRef = doc(db, "users", data.userId);
-      const docSnap = await getDoc(docRef);
-      setUser(docSnap.data());
-    }
-    fetchUser();
-  }, [data.userId]);
-
   if (!data || !data.id) return null;
 
   const date = new Date(data?.createdAt?.seconds * 1000);
@@ -91,15 +68,15 @@ const PostFeatureItem = ({ data }) => {
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
-          {category?.name && (
-            <PostCategory to={category.slug}>
-              {category.name.toLowerCase()}
+          {data.category?.name && (
+            <PostCategory to={data.category.slug}>
+              {data.category.name.toLowerCase()}
             </PostCategory>
           )}
           <PostMeta
-            authorName={user?.fullname}
+            authorName={data.user?.fullname}
             date={formatDate}
-            to={user.username}
+            to={data.user.username}
           ></PostMeta>
         </div>
         <PostTitle size="big">{data.title}</PostTitle>

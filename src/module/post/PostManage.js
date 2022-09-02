@@ -1,89 +1,34 @@
 import React from "react";
-import styled from "styled-components";
 
 import { Table } from "components/table";
 import { Button } from "components/button";
-import { Dropdown } from "components/dropdown";
 import DashboardHeading from "module/dashboard/DashboardHeading";
-
-const StyledSearchInput = styled.div`
-  position: relative;
-  margin-left: 32px;
-  padding: 12px 24px;
-  border: 2px solid ${(props) => props.theme.primary};
-  border-radius: 8px;
-  width: 100%;
-  max-width: 300px;
-  display: flex;
-  align-items: center;
-
-  .search-input {
-    flex: 1;
-    padding-right: 36px;
-    font-weight: 500;
-  }
-
-  .search-icon {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 24px;
-  }
-`;
+import { useNavigate } from "react-router-dom";
 
 const PostManage = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
-      <div>
-        <DashboardHeading
-          title="All posts"
-          desc="Manage all posts"
-        ></DashboardHeading>
-        <div className="mb-10 flex justify-end gap-5">
-          <div className="w-full max-w-[200px]">
-            <Dropdown>
-              <Dropdown.Select placeholder="Category"></Dropdown.Select>
-            </Dropdown>
-          </div>
-          <StyledSearchInput>
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Search posts..."
-            />
-            <span className="search-icon">
-              <svg
-                width="18"
-                height="17"
-                viewBox="0 0 18 17"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <ellipse
-                  cx="7.66669"
-                  cy="7.05161"
-                  rx="6.66669"
-                  ry="6.05161"
-                  stroke="#999999"
-                  strokeWidth="1.5"
-                />
-                <path
-                  d="M17.0001 15.5237L15.2223 13.9099L14.3334 13.103L12.5557 11.4893"
-                  stroke="#999999"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M11.6665 12.2964C12.9671 12.1544 13.3706 11.8067 13.4443 10.6826"
-                  stroke="#999999"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>
-          </StyledSearchInput>
+      <DashboardHeading title="All posts" desc="Manage all posts">
+        <div className="flex items-center gap-x-5">
+          <input
+            type="text"
+            placeholder="Search post..."
+            className="h-[52px] px-5 border-solid border-2 border-gray-300 focus:border-primary rounded-lg"
+          ></input>
+          <Button
+            className="max-w-[200px]"
+            variant="secondary"
+            onClick={() => {
+              navigate("/manage/add-post");
+            }}
+          >
+            Create post
+          </Button>
         </div>
-      </div>
+      </DashboardHeading>
+
       <Table>
         <thead>
           <tr>
@@ -180,12 +125,11 @@ const PostManage = () => {
           </tr>
         </tbody>
       </Table>
-      <div className="mt-10 text-center">
-        {/* <Pagination></Pagination> */}
-        <Button variant="ghost" className="mx-auto w-[200px]">
+      {/* <div className="mt-10 text-center">
+        <Button variant="ghost" className="mx-auto max-w-[200px]">
           See more+
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };

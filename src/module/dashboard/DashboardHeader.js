@@ -52,9 +52,9 @@ const DashboardHeader = () => {
         <span className="hidden lg:inline-block">Monkey Blogging</span>
       </NavLink>
       <div className="header-right">
-        <Button to="/manage/add-post" className="header-button">
+        {/* <Button to="/manage/add-post" className="header-button">
           Write new post
-        </Button>
+        </Button> */}
         <div className="flex items-center">
           {userInfo.photoURL ? (
             <NavLink to="/profile" className="header-avatar">
