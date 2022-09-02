@@ -29,25 +29,24 @@ const UserUpdate = () => {
     formState: { isValid, isSubmitting },
   } = useForm({
     mode: "onChange",
-    defaultValues: {
-      fullname: "",
-      email: "",
-      password: "",
-      username: "",
-      avatar: "",
-      status: userStatus.ACTIVE,
-      role: userRole.USER,
-      createdAt: new Date(),
-    },
   });
 
   const watchStatus = watch("status");
   const watchRole = watch("role");
 
-  const { image, progress, handleSelectImage, handleDeleteImage } =
-    useFirebaseImage(setValue, getValues);
-
   const imageURL = getValues("avatar");
+  const imageRegex = /%2F(\S+)\?/gm.exec(imageURL);
+  const imageName = imageRegex?.length > 0 ? imageRegex[1] : "";
+
+  async function deleteAvatar() {
+    const colRef = doc(db, "users", userId);
+    await updateDoc(colRef, {
+      avatar: "",
+    });
+  }
+
+  const { image, setImage, progress, handleSelectImage, handleDeleteImage } =
+    useFirebaseImage(setValue, getValues, imageName, deleteAvatar);
 
   const handleUpdateUser = async (values) => {
     if (!isValid) return;
@@ -57,6 +56,7 @@ const UserUpdate = () => {
 
       await updateDoc(colRef, {
         ...values,
+        avatar: image,
         status: Number(values.status),
         role: Number(values.role),
       });
@@ -69,14 +69,18 @@ const UserUpdate = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    setImage(imageURL);
+  }, [imageURL, setImage]);
+
+  useEffect(() => {
+    async function fetchData() {
       if (!userId) return;
 
       const colRef = doc(db, "users", userId);
       const docData = await getDoc(colRef);
 
       reset(docData && docData.data());
-    };
+    }
 
     fetchData();
   }, [reset, userId]);
@@ -95,7 +99,7 @@ const UserUpdate = () => {
         <ImageUpload
           className="mb-10"
           progress={progress}
-          image={imageURL}
+          image={image}
           onChange={handleSelectImage}
           handleDeleteImage={handleDeleteImage}
         ></ImageUpload>
