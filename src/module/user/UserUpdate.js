@@ -97,7 +97,7 @@ const UserUpdate = () => {
       ></DashboardHeading>
       <form onSubmit={handleSubmit(handleUpdateUser)} autoComplete="off">
         <ImageUpload
-          className="mb-10"
+          className="w-[200px] h-[200px] !rounded-full min-h-0 mx-auto mb-10"
           progress={progress}
           image={image}
           onChange={handleSelectImage}

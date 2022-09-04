@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import {
-  collection,
-  limit,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "firebase-app/firebase-config";
 
 import { Heading } from "components/layout";
@@ -19,12 +13,7 @@ const HomeFeature = () => {
 
   useEffect(() => {
     const colRef = collection(db, "posts");
-    const queries = query(
-      colRef,
-      where("status", "==", 1),
-      where("hot", "==", true),
-      limit(3)
-    );
+    const queries = query(colRef, where("status", "==", 1));
 
     onSnapshot(queries, (snapshot) => {
       const results = [];

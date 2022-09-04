@@ -79,7 +79,9 @@ const PostFeatureItem = ({ data }) => {
             to={data.user.username}
           ></PostMeta>
         </div>
-        <PostTitle size="big">{data.title}</PostTitle>
+        <PostTitle to={`/${data.slug}`} size="big">
+          {data.title}
+        </PostTitle>
       </div>
     </StyledPostFeatureItem>
   );

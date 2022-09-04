@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { Main } from "components/layout";
-import { Hero, HomeNewest, HomeFeature } from "module/home";
+import { Hero, HomeFeature } from "module/home";
 
 const StyledHomePage = styled.div``;
 
@@ -12,7 +12,7 @@ const HomePage = () => {
       <Main>
         <Hero />
         <HomeFeature></HomeFeature>
-        <HomeNewest></HomeNewest>
+        {/* <HomeNewest></HomeNewest> */}
       </Main>
     </StyledHomePage>
   );

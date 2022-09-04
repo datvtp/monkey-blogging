@@ -12,7 +12,7 @@ const Option = ({ onClick, children }) => {
 
   return (
     <div
-      className="py-[15px] px-[25px] cursor-pointer flex items-center justify-between hover:text-primary transition-all"
+      className="py-[19px] px-[25px] cursor-pointer flex items-center justify-between hover:text-primary transition-all"
       onClick={handleClick}
     >
       {children}
