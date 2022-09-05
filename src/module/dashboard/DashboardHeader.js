@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
-import { Button } from "components/button";
 import { useAuth } from "contexts/auth-context";
 
 const StyledDashboardHeader = styled.div`
@@ -52,13 +51,11 @@ const DashboardHeader = () => {
         <span className="hidden lg:inline-block">Monkey Blogging</span>
       </NavLink>
       <div className="header-right">
-        {/* <Button to="/manage/add-post" className="header-button">
-          Write new post
-        </Button> */}
-        <div className="flex items-center">
-          {userInfo.photoURL ? (
+        <div className="flex gap-x-4 text-primary text-xl font-semi-bold items-center">
+          {userInfo.fullname}
+          {userInfo.avatar ? (
             <NavLink to="/profile" className="header-avatar">
-              <img src={userInfo.photoURL} alt="" />
+              <img src={userInfo.avatar} alt="" />
             </NavLink>
           ) : (
             <div className="w-[52px] h-[52px] rounded-full bg-primary"></div>
